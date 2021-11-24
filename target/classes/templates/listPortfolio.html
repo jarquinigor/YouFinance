@@ -158,7 +158,7 @@ body {
 										th:href="@{/cartera/verCartera(idPortfolio=${p.idPortfolio})}"><span
 											class="bi bi-box-arrow-right"></span></a></td>
 									<td align="center"><a class="btn btn-danger"
-										th:href="@{/cartera/eliminar(id=${p.idPortfolio})}"><span
+										th:href="@{/cartera/eliminar(idMovementType=${p.movementType.idMovementType},idPortfolio=${p.idPortfolio},idUser=${session.userlogged.idUser})}"><span
 											class="bi bi-trash"></span></a></td>	
 								</tr>
 							</tbody>

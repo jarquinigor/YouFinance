@@ -362,7 +362,7 @@ public class MovementController {
 		objPortfolio.get(0).setValorTotalRecibidoPortfolio(valorTotalRecibido);
 		
 		//valor de TCEA cargado
-		//(debemos crear una lista de doubles,debe contener full días, y pasarlo por la función calculaTIR)
+		//(debemos crear una lista de doubles, debe contener full días, y pasarlo por la función calculaTIR)
 		List<Double>lst = new ArrayList<Double>();
 		Calendar auxiliar = Calendar.getInstance(); 
 		List<Movement>movements = mService.findByPortfolioId(idPortfolio);
@@ -408,7 +408,12 @@ public class MovementController {
 			
 		}
 		
-		double[] cashFlows = new double[lst.size()];	
+		double[] cashFlows = new double[lst.size()];
+		
+		for (int i = 0; i < lst.size(); i++) {
+			cashFlows[i] = lst.get(i);
+		}
+		
 		double IRR = Irr.irr(cashFlows)*100.0;
 		
 		IRR = IRR/100.0;

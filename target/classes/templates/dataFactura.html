@@ -76,7 +76,7 @@ html, body {
 	<div class="container">
 		<br> <br> <br>
 		<p style="text-align: center; font-size: 30px; font-weight: bold;">
-			DATOS DE FACTURA&nbsp<span th:text="${session.portfolio.movementType.nameMovementType}"></span><span class="bi bi-currency-exchange"></span>
+			DATOS DE&nbsp<span style="text-transform: uppercase;" th:text="${session.portfolio.movementType.nameMovementType}"></span><span class="bi bi-currency-exchange"></span>
 		</p>
 
 		<form th:action="@{/movimiento/registrar(idPortfolio=${session.portfolio.idPortfolio})}" method="post" th:object="${movement}" style="font-size:18px;">
