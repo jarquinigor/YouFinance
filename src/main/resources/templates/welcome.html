@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta charset="utf-8" />
+<title>YouFinance</title>
+<meta name="generator" content="Bootply" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+	crossorigin="anonymous" />
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+	integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+	integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+	integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+	crossorigin="anonymous"></script>
+
+<link rel="preconnect" href="https://fonts.gstatic.com" />
+
+<link href='https://fonts.googleapis.com/css?family=Be Vietnam'
+	rel='stylesheet' />
+<link rel="stylesheet" href="/styles/styles.css" />
+
+<style>
+html, body {
+	height: 100%;
+	font-family: 'Be Vietnam' !important;
+}
+</style>
+</head>
+
+<body>
+	<div th:replace="fragments/header :: header"></div>
+
+	<div class="container">
+		<br>
+		<br>
+		<br>
+		<div class="row">	
+			<div class="col-sm-6">
+				<p style="color:rgba(51, 51, 51, 1);font-size:40px;font-weight:900;">BIENVENIDO A YOUFINANCE</p>
+				<p>YouFinance es una aplicación web donde podrás tener una
+					cartera virtual y analizar tus movimientos de dinero , facturas,
+					letras y recibos por honotrarios. Garantizamos que usted no se
+					preocupe ni estrese por la necesidad de conocer infinidad de
+					fórmulas para tener control de tu dinero. Nosotros nos encargamos
+					de realizar ese trabajo pesado por usted.</p>
+				<a class="btn btn-success btn-lg btn-block rounded-pill shadow-lg" th:href="@{/usuario/login}">Inicia Sesión</a>
+				<a class="btn btn-primary btn-lg btn-block rounded-pill shadow-lg" th:href="@{/usuario/registro}">Regístrate</a>
+			</div>
+			<div class="col-sm-6">
+				<img th:src="@{/img/img1.png}" width="100%">
+			</div>
+		</div>
+		<br>
+		<br>
+		<div class="row justify-content-md-center" style="text-align: center;">
+			<div class="col col-lg-2">
+				<img th:src="@{/img/facturas.png}" style="width:85%;">
+				<p style="font-weight:bold; color:rgba(242, 78, 30, 1);">1. Reporte de Facturas</p>
+			</div>
+			<div class="col col-lg-2">
+				<img th:src="@{/img/letras.png}" style="width:85%;">
+				<p style="font-weight:bold; color:rgba(242, 78, 30, 1);">2. Reporte de Letras</p>
+			</div>
+			<div class="col col-lg-2">
+				<img th:src="@{/img/recibos.png}" style="width:85%;">
+				<p style="font-weight:bold; color:rgba(242, 78, 30, 1);">3. Reporte de Recibos por Honorarios</p>
+			</div>
+			<div class="col col-lg-2">
+				<img th:src="@{/img/tasas.png}" style="width:85%;">
+				<p style="font-weight:bold; color:rgba(242, 78, 30, 1);">4. Controla tus tasas</p>
+			</div>
+		</div>
+	</div>
+
+	<div th:replace="fragments/footer :: footer"></div>
+</body>
+
+</html>

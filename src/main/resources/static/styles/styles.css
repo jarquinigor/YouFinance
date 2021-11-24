@@ -1,0 +1,19 @@
+.big-banner {
+	background-image: url('/img/background1.png');
+	background-repeat: no-repeat;
+	background-size: auto 100%;
+	background-position: right top;
+}
+
+.big-banner2 {
+	background-image: url('/img/background2.png');
+	background-repeat: no-repeat;
+	background-size: auto 100%;
+	background-position: right top;
+}
+
+.big-footer {
+	background-image: url('/img/footer.png');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
