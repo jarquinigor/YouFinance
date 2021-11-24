@@ -121,6 +121,7 @@ body {
 									<th class="text-center">VALOR RECIBIDO</th>
 									<th class="text-center">VALOR ENTREGADO</th>
 									<th class="text-center">TCEA%</th>
+									<th class="text-center">OPERACION</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -139,7 +140,9 @@ body {
 									<td align="center" th:text="${m.valorNetoMovement}"></td>
 									<td align="center" th:text="${m.valorRecibidoMovement}"></td>
 									<td align="center" th:text="${m.valorEntregadoMovement}"></td>
-									<td align="center" th:text="${m.tceaMovement}"></td>	
+									<td align="center" th:text="${m.tceaMovement}"></td>
+									<td align="center"><a class="btn btn-danger"               
+									th:href="@{/movimiento/eliminar(idMovement=${m.idMovement}, idPortfolio=${session.portfolio.idPortfolio})}"><span class="bi bi-trash"></span></a></td>	
 								</tr>
 							</tbody>
 						</table>

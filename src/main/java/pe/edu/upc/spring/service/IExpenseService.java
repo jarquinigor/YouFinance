@@ -11,4 +11,5 @@ public interface IExpenseService {
 	public List<Expense> findAllSortIdAsc();
 	public Optional<Expense>findById(int idExpense);
 	public List<Expense> findByMovementId(int idMovement, int momentExpenseType);
+	public void deleteAllByMovementId(int idMovement);
 }

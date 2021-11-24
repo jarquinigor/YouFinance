@@ -51,4 +51,10 @@ public class ExpenseServiceImpl implements IExpenseService {
 	public List<Expense> findByMovementId(int idMovement, int momentExpenseType){
 		return dExpense.findByMovementId(idMovement, momentExpenseType);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public void deleteAllByMovementId(int idMovement){
+		dExpense.deleteAll(dExpense.findAllByMovementId(idMovement));
+	}
 }

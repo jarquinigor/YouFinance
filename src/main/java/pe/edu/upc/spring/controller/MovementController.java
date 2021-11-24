@@ -214,27 +214,35 @@ public class MovementController {
 		}
 		return "dataGastos";
 	}
-
+	
+	
+	@RequestMapping("/eliminar") 															
+	public String deleteMovement(@RequestParam("idMovement") Integer idMovement, @RequestParam("idPortfolio") Integer idPortfolio,RedirectAttributes redirectAttributes) {
+		
+		expService.deleteAllByMovementId(idMovement); //ELIMINAMOS LOS GASTOS
+		//AHORA ELIMINAMOS EL MOVIMIENTO
+		
+		mService.delete(idMovement);
+		
+		redirectAttributes.addAttribute("idPortfolio",idPortfolio);
+		return "redirect:/cartera/verCartera";
+	}
+	
+	
 	@RequestMapping("/registraResultados")
 	public String updateMovement(@RequestParam("idMovement") Integer idMovement, @RequestParam("idPortfolio") Integer idPortfolio, Model model,
 			RedirectAttributes redirectAttributes) throws ParseException {
-		
+
 		Movement movement = mService.findByMovementId(idMovement).get(0); //OBTENEMOS EL MOVIMIENTO CON SUS DATOS CARGADOS
 		double diasAnio;
 		if(movement.getDiasAnioMovement()==360)
 		{
-			if(movement.getRateTerm().getDaysRateTerm()!=360) {
-				movement.getRateTerm().setDaysRateTerm(360);
-			}
 			diasAnio = 360.0;
 		}	
 		else //365
 		{	
-			if(movement.getRateTerm().getDaysRateTerm()!=365) {
-				movement.getRateTerm().setDaysRateTerm(365);
-			}
 			diasAnio = 365.0;
-		}	
+		}
 		
 		List<Portfolio>portfolio = pService.findByPortfolioId(idPortfolio);
 
@@ -251,21 +259,22 @@ public class MovementController {
 		movement.setCantidadDiasMovement(dias);// (3) - dias
 
 		System.out.println(dias);
-
-		// (3) - TEP		
+		// (3) - TEP	
+		System.out.println("TASA INGRESADA: "+movement.getPercentTasaMovement()+"%");
 		double TE = movement.getPercentTasaMovement() / 100.0;
+		System.out.println("TASA INGRESADA DIVIDIDA POR 100.0: "+TE);
 		double TEP = 0.0;
 		int diasTE;
-		int diasTN;
 		if (movement.getRateType().getIdRateType() == 1) { //EFECTIVA
-				
-			System.out.println("tasa ingresada: " + movement.getPercentTasaMovement() + "%");
-			System.out.println("Tasa Efectiva original (sin %): " + TE);		
+						
 			if (movement.getRateTerm().getIdRateTerm() != 9) //
 			{
 				diasTE = movement.getRateTerm().getDaysRateTerm();
-				TEP = Math.pow((1 + TE), ((double) dias / (double) diasTE)) - 1.0;
+				System.out.println("DIAS ACTUALES DE LA TASA: "+ diasTE);
+				TEP = Math.pow((1 + TE), ((double)dias / (double)diasTE)) - 1.0;
+				System.out.println("TASA DEL PERIODO SIN PORCENTAJE: "+ TEP);
 				movement.setTasaEfectivaPeriodoMovement(TEP*100.0);// (3) - TEP
+				System.out.println("Tasa Efectiva de los 99 DÍAS CON %" + TEP*100+"%");
 			} else {
 				diasTE = movement.getDiasPlazoTasaMovement();// ESPECIAL
 				TEP = Math.pow((1 + TE), ((double)dias / (double)diasTE)) - 1.0;			
@@ -279,14 +288,12 @@ public class MovementController {
 			{
 				if(movement.getCapitalization().getIdCapitalization()!=9) { //SI HAY CAPITALIZACIÓN NORMAL
 					m = ((double)movement.getRateTerm().getDaysRateTerm() / (double)movement.getCapitalization().getDaysCapitalization());
-					diasTN = movement.getRateTerm().getDaysRateTerm();
 					TEPc = TE / m;//TEPc
 					TEP = Math.pow((1 + TEPc), ((double)dias / (double)movement.getCapitalization().getDaysCapitalization())) - 1.0;
 					movement.setTasaEfectivaPeriodoMovement(TEP*100.0);// (3) - TEP
 				}
 				else {  // SI NO HAY CAPITALIZACIÓN NORMAL
 					m = ((double)movement.getRateTerm().getDaysRateTerm() / (double)movement.getDiasCapitalizacionTasaMovement());
-					diasTN = movement.getRateTerm().getDaysRateTerm();
 					TEPc = TE / m;//TEPc
 					TEP = Math.pow((1 + TEPc), ((double)dias / (double)movement.getDiasCapitalizacionTasaMovement())) - 1.0;
 					movement.setTasaEfectivaPeriodoMovement(TEP*100.0);// (3) - TEP
@@ -294,14 +301,12 @@ public class MovementController {
 			} else {// TASA DE TIEMPO ESPECIAL
 				if(movement.getCapitalization().getIdCapitalization()!=9) {
 					m = ((double)movement.getDiasPlazoTasaMovement() / (double)movement.getCapitalization().getDaysCapitalization());
-					diasTN = movement.getRateTerm().getDaysRateTerm();
 					TEPc = TE / m;//TEPc
 					TEP = Math.pow((1 + TEPc), ((double)dias / (double)movement.getCapitalization().getDaysCapitalization())) - 1.0;	
 					movement.setTasaEfectivaPeriodoMovement(TEP*100.0);// (3) - TEP
 				}
 				else {
 					m = ((double)movement.getDiasPlazoTasaMovement() / (double)movement.getDiasCapitalizacionTasaMovement());
-					diasTN = movement.getRateTerm().getDaysRateTerm();
 					TEPc = TE / m;//TEPc
 					TEP = Math.pow((1 + TEPc), ((double)dias / (double)movement.getDiasCapitalizacionTasaMovement())) - 1.0;	
 					movement.setTasaEfectivaPeriodoMovement(TEP*100.0);// (3) - TEP
@@ -403,13 +408,7 @@ public class MovementController {
 			
 		}
 		
-		System.out.println("TAMAÑO DE LISTA: "+ lst.size());
-		double[] cashFlows = new double[lst.size()];
-		for (int i = 0; i < lst.size(); i++) {
-			cashFlows[i] = lst.get(i);
-			System.out.println(i+": " + lst.get(i) );
-		}
-					
+		double[] cashFlows = new double[lst.size()];	
 		double IRR = Irr.irr(cashFlows)*100.0;
 		
 		IRR = IRR/100.0;

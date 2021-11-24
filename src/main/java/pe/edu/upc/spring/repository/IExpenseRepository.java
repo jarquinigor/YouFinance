@@ -13,4 +13,7 @@ import pe.edu.upc.spring.model.Expense;
 public interface IExpenseRepository extends JpaRepository<Expense, Integer> {
 	@Query("from Expense e where e.movement.idMovement = :idMovement and e.expenseType.momentExpenseType = :momentExpenseType order by e.idExpense ASC")
 	List<Expense> findByMovementId(@Param("idMovement") int idMovement, @Param("momentExpenseType") int momentExpenseType);
+	
+	@Query("from Expense e where e.movement.idMovement = :idMovement")
+	List<Expense> findAllByMovementId(@Param("idMovement") int idMovement);
 }
